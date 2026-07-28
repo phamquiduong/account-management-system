@@ -29,7 +29,7 @@ class User(AbstractUser):
     last_name = None
     name = models.CharField(_("name"), blank=True, null=True, max_length=255)
 
-    objects = UserManager()  # type:ignore
+    objects = UserManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

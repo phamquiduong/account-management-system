@@ -17,10 +17,7 @@ TEST_CASES = {
 
 @pytest.mark.django_db
 def test_logout_success_and_blacklist():
-    User.objects.create_user(  # type:ignore
-        email=TEST_CASES["email"],
-        password=TEST_CASES["password"],
-    )
+    User.objects.create_user(email=TEST_CASES["email"], password=TEST_CASES["password"])
 
     client = APIClient()
 
@@ -38,7 +35,7 @@ def test_logout_success_and_blacklist():
         format="json",
     )
 
-    refresh = login_res.data["refresh"]  # type:ignore
+    refresh = login_res.data["refresh"]
 
     payload = jwt.decode(refresh, settings.SECRET_KEY, algorithms=[settings.SIMPLE_JWT["ALGORITHM"]])
     jti = payload["jti"]
@@ -51,7 +48,7 @@ def test_logout_success_and_blacklist():
         format="json",
     )
 
-    assert logout_res.status_code == status.HTTP_200_OK  # type:ignore
+    assert logout_res.status_code == status.HTTP_200_OK
 
     outstanding = OutstandingToken.objects.get(jti=jti)
     assert outstanding is not None

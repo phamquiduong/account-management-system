@@ -17,7 +17,7 @@ TEST_CASES = {
 
 @pytest.mark.django_db
 def test_refresh_token_success():
-    User.objects.create_user(email=TEST_CASES["email"], password=TEST_CASES["password"])  # type:ignore
+    User.objects.create_user(email=TEST_CASES["email"], password=TEST_CASES["password"])
 
     refresh_url = reverse("auth_api_refresh")
     assert refresh_url == "/auth/api/refresh"
@@ -33,7 +33,7 @@ def test_refresh_token_success():
         format="json",
     )
 
-    old_refresh = login_res.data["refresh"]  # type:ignore
+    old_refresh = login_res.data["refresh"]
 
     old_payload = jwt.decode(old_refresh, settings.SECRET_KEY, algorithms=[settings.SIMPLE_JWT["ALGORITHM"]])
     old_jti = old_payload["jti"]
@@ -46,10 +46,10 @@ def test_refresh_token_success():
         format="json",
     )
 
-    assert refresh_res.status_code == status.HTTP_200_OK  # type:ignore
+    assert refresh_res.status_code == status.HTTP_200_OK
 
-    new_access = refresh_res.data["access"]  # type:ignore
-    new_refresh = refresh_res.data["refresh"]  # type:ignore
+    new_access = refresh_res.data["access"]
+    new_refresh = refresh_res.data["refresh"]
 
     assert new_access is not None
     assert new_refresh is not None

@@ -20,6 +20,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: dict[str, str]) -> User:
         if User.objects.exists():
-            return User.objects.create_user(**validated_data)  # type:ignore
+            return User.objects.create_user(**validated_data)
         else:
-            return User.objects.create_superuser(**validated_data)  # type:ignore
+            return User.objects.create_superuser(**validated_data)
