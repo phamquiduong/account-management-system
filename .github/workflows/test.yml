@@ -69,9 +69,7 @@ jobs:
 
           echo "### ✅ Test Results" >> $GITHUB_STEP_SUMMARY
           echo '```text' >> $GITHUB_STEP_SUMMARY
-          grep -E "PASSED|FAILED|ERROR" pytest_output.txt \
-            | sed 's/\[[^]]*\]//g' \
-            | sed 's/[[:space:]]*$//' >> $GITHUB_STEP_SUMMARY
+          grep -E "PASSED|FAILED|ERROR" pytest_output.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
           echo "" >> $GITHUB_STEP_SUMMARY
