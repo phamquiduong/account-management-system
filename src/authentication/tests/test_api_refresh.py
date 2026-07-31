@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 import jwt
 import pytest
 from django.conf import settings
@@ -7,60 +9,61 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 
+from common.tests.login import login_test
+
 User = get_user_model()
 
-TEST_CASES = {
-    "email": "test@mail.com",
-    "password": "Test@1234",
+REFRESH_URL = "/auth/api/refresh"
+
+
+@dataclass
+class RefreshTestCase:
+    email: str
+    password: str
+
+
+TEST_CASES: dict[str, RefreshTestCase] = {
+    "normal": RefreshTestCase(email="user@mail.com", password="Test@1234"),
 }
+
+
+def test_refresh_url():
+    assert reverse("auth_api_refresh") == REFRESH_URL
 
 
 @pytest.mark.django_db
 def test_refresh_token_success():
-    User.objects.create_user(email=TEST_CASES["email"], password=TEST_CASES["password"])
-
-    refresh_url = reverse("auth_api_refresh")
-    assert refresh_url == "/auth/api/refresh"
-
     client = APIClient()
 
-    login_res = client.post(
-        reverse("auth_api_login"),
-        {
-            "email": TEST_CASES["email"],
-            "password": TEST_CASES["password"],
-        },
-        format="json",
-    )
-
-    old_refresh = login_res.data["refresh"]
-
-    old_payload = jwt.decode(old_refresh, settings.SECRET_KEY, algorithms=[settings.SIMPLE_JWT["ALGORITHM"]])
-    old_jti = old_payload["jti"]
+    login_response = login_test(client, email=TEST_CASES["normal"].email, password=TEST_CASES["normal"].password)
 
     refresh_res = client.post(
-        refresh_url,
+        REFRESH_URL,
         {
-            "refresh": old_refresh,
+            "refresh": login_response.refresh,
         },
         format="json",
     )
 
+    # Check status
     assert refresh_res.status_code == status.HTTP_200_OK
 
-    new_access = refresh_res.data["access"]
-    new_refresh = refresh_res.data["refresh"]
+    # Check access token
+    assert "access" in refresh_res.data
 
-    assert new_access is not None
-    assert new_refresh is not None
+    # Check refresh token
+    assert "refresh" in refresh_res.data
 
-    new_payload = jwt.decode(new_refresh, settings.SECRET_KEY, algorithms=[settings.SIMPLE_JWT["ALGORITHM"]])
-    new_jti = new_payload["jti"]
+    # Check revoke old token
+    assert BlacklistedToken.objects.filter(token__jti=login_response.jti).exists() is True
 
-    old_outstanding = OutstandingToken.objects.get(jti=old_jti)
-    assert BlacklistedToken.objects.filter(token=old_outstanding).exists() is True
+    refresh_token = refresh_res.data["refresh"]
+    payload = jwt.decode(refresh_token, settings.SECRET_KEY, algorithms=[settings.SIMPLE_JWT["ALGORITHM"]])
 
-    new_outstanding = OutstandingToken.objects.get(jti=new_jti)
+    new_outstanding = OutstandingToken.objects.get(jti=payload["jti"])
+
+    # Check save new refresh token
     assert new_outstanding is not None
 
-    assert new_jti != old_jti
+    # Check not return old token
+    assert payload["jti"] != login_response.jti
