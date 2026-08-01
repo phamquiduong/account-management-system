@@ -12,6 +12,7 @@ This project is a simple system for **account management**, including:
 
 - Python 3.14
 - Django 6
+- Django rest framework 3
 - PostgreSQL 18
 - Docker & Docker-compose
 
@@ -80,3 +81,4 @@ python manage.py runserver 0.0.0.0:<your_port>
 ### Result
 - Admin site: Visit `/admin`
 - API document: Visit `/api/docs`
+- Check run tests result and coverage in [Github action summary](https://github.com/phamquiduong/account-management-system/actions), example: [Refactor project testing](https://github.com/phamquiduong/account-management-system/actions/runs/30657331518)
