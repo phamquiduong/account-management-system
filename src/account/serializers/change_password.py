@@ -7,6 +7,8 @@ class ChangePasswordSerializer(serializers.Serializer):
     old_password = PasswordField()
     new_password = PasswordField()
 
+    message = serializers.CharField(read_only=True, default="Update password successfully")
+
     def validate_old_password(self, value):
         user = self.context["request"].user
         if not user.check_password(value):
