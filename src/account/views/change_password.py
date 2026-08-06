@@ -11,7 +11,7 @@ from common.utils.black_list import blacklist_all_tokens
 
 @extend_schema(tags=["Account"])
 class ChangePasswordView(generics.UpdateAPIView):
-    http_method_names = (HTTPMethod.PATCH.lower(),)
+    http_method_names = [HTTPMethod.PATCH.lower()]
     serializer_class = ChangePasswordSerializer
     permission_classes = (IsAuthenticated,)
 
