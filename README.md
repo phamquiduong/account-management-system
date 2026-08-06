@@ -6,6 +6,10 @@ This project is a simple system for **account management**, including:
 
 <br>
 
+[![Django Test](https://github.com/phamquiduong/account-management-system/actions/workflows/test.yml/badge.svg)](https://github.com/phamquiduong/account-management-system/actions/workflows/test.yml)
+
+<br>
+
 ---
 
 ### Tech Stack
