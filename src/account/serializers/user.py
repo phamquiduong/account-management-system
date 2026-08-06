@@ -4,10 +4,12 @@ from rest_framework import serializers
 User = get_user_model()
 
 
-class UpdateUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "email", "name")
+        exclude = ["password", "groups", "user_permissions"]
         extra_kwargs = {
             "id": {"read_only": True},
+            "date_joined": {"read_only": True},
+            "last_login": {"read_only": True},
         }

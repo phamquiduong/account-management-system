@@ -11,9 +11,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = "id", "email", "password"
+        exclude = ["groups", "user_permissions"]
         extra_kwargs = {
             "id": {"read_only": True},
+            "is_active": {"read_only": True},
+            "is_superuser": {"read_only": True},
+            "is_staff": {"read_only": True},
+            "date_joined": {"read_only": True},
+            "last_login": {"read_only": True},
         }
 
     def create(self, validated_data: dict[str, str]) -> User:

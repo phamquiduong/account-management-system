@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from common.fields.password import PasswordField
+from common.utils.black_list import blacklist_all_tokens
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -18,4 +19,7 @@ class ChangePasswordSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.set_password(validated_data["new_password"])
         instance.save(update_fields=["password"])
+
+        blacklist_all_tokens(instance)
+
         return instance
