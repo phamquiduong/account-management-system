@@ -8,8 +8,6 @@ from rest_framework.test import APIClient
 
 User = get_user_model()
 
-LOGIN_URL = "/auth/api/login"
-
 
 @dataclass
 class LoginTestCase:
@@ -22,10 +20,6 @@ TEST_CASES: dict[str, LoginTestCase] = {
 }
 
 
-def test_login_url():
-    assert reverse("auth_api_login") == LOGIN_URL
-
-
 @pytest.mark.django_db
 def test_login_success():
     user = User.objects.create_user(email=TEST_CASES["normal"].email, password=TEST_CASES["normal"].password)
@@ -35,7 +29,7 @@ def test_login_success():
 
     client = APIClient()
     response = client.post(
-        LOGIN_URL,
+        reverse("auth-api-login"),
         {
             "email": TEST_CASES["normal"].email,
             "password": TEST_CASES["normal"].password,

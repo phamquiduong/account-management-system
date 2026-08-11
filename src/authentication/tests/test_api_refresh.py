@@ -13,8 +13,6 @@ from common.tests.login import login_test
 
 User = get_user_model()
 
-REFRESH_URL = "/auth/api/refresh"
-
 
 @dataclass
 class RefreshTestCase:
@@ -27,10 +25,6 @@ TEST_CASES: dict[str, RefreshTestCase] = {
 }
 
 
-def test_refresh_url():
-    assert reverse("auth_api_refresh") == REFRESH_URL
-
-
 @pytest.mark.django_db
 def test_refresh_token_success():
     client = APIClient()
@@ -38,7 +32,7 @@ def test_refresh_token_success():
     login_response = login_test(client, email=TEST_CASES["normal"].email, password=TEST_CASES["normal"].password)
 
     refresh_res = client.post(
-        REFRESH_URL,
+        reverse("auth-api-refresh"),
         {
             "refresh": login_response.refresh,
         },

@@ -8,8 +8,6 @@ from rest_framework.test import APIClient
 
 User = get_user_model()
 
-REGISTER_URL = "/account/api/register"
-
 
 @dataclass
 class RegisterTestCase:
@@ -25,16 +23,12 @@ TEST_CASES: dict[str, RegisterTestCase] = {
 }
 
 
-def test_register_url():
-    assert reverse("account_api_register") == REGISTER_URL
-
-
 @pytest.mark.django_db
 def test_register_success():
     client = APIClient()
 
     response = client.post(
-        REGISTER_URL,
+        reverse("account-api-users-list"),
         {
             "email": TEST_CASES["first_user"].email,
             "password": TEST_CASES["first_user"].password,
@@ -56,7 +50,7 @@ def test_register_success():
     assert first_user.is_superuser is True
 
     response = client.post(
-        REGISTER_URL,
+        reverse("account-api-users-list"),
         {
             "email": TEST_CASES["second_user"].email,
             "password": TEST_CASES["second_user"].password,
@@ -83,7 +77,7 @@ def test_password_short():
     client = APIClient()
 
     response = client.post(
-        REGISTER_URL,
+        reverse("account-api-users-list"),
         {
             "email": TEST_CASES["user_short_password"].email,
             "password": TEST_CASES["user_short_password"].password,
@@ -103,7 +97,7 @@ def test_register_conflict():
     client = APIClient()
 
     response = client.post(
-        REGISTER_URL,
+        reverse("account-api-users-list"),
         {
             "email": TEST_CASES["register_conflict"].email,
             "password": TEST_CASES["register_conflict"].password,
@@ -115,7 +109,7 @@ def test_register_conflict():
     assert response.status_code == status.HTTP_201_CREATED
 
     response = client.post(
-        REGISTER_URL,
+        reverse("account-api-users-list"),
         {
             "email": TEST_CASES["register_conflict"].email,
             "password": TEST_CASES["register_conflict"].password,

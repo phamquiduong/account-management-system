@@ -5,7 +5,7 @@ from authentication.views.logout import LogoutAPIView
 from authentication.views.refresh import RefreshTokenAPIView
 
 urlpatterns = [
-    path("login", LoginAPIView.as_view(), name="auth_api_login"),
-    path("logout", LogoutAPIView.as_view(), name="auth_api_logout"),
-    path("refresh", RefreshTokenAPIView.as_view(), name="auth_api_refresh"),
+    path("login", LoginAPIView.as_view(), name="auth-api-login"),
+    path("logout", LogoutAPIView.as_view(), name="auth-api-logout"),
+    path("refresh", RefreshTokenAPIView.as_view(), name="auth-api-refresh"),
 ]

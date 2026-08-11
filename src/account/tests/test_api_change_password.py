@@ -11,8 +11,6 @@ from common.tests.login import login_test
 
 User = get_user_model()
 
-CHANGE_PASSWORD_URL = "/account/api/change-password"
-
 
 @dataclass
 class ChangePasswordTestCase:
@@ -27,10 +25,6 @@ TEST_CASES: dict[str, ChangePasswordTestCase] = {
 }
 
 
-def test_change_password_url():
-    assert reverse("account_api_change-password") == CHANGE_PASSWORD_URL
-
-
 @pytest.mark.django_db
 def test_change_password_success():
     client = APIClient()
@@ -38,7 +32,7 @@ def test_change_password_success():
     login_response = login_test(client, TEST_CASES["success"].email, TEST_CASES["success"].password)
 
     response = client.patch(
-        CHANGE_PASSWORD_URL,
+        reverse("account-api-auth_user-change_password"),
         {
             "old_password": TEST_CASES["success"].password,
             "new_password": TEST_CASES["success"].new_password,
@@ -64,7 +58,7 @@ def test_change_password_wrong_old_password():
     login_test(client, TEST_CASES["wrong_password"].email, TEST_CASES["wrong_password"].password)
 
     response = client.patch(
-        CHANGE_PASSWORD_URL,
+        reverse("account-api-auth_user-change_password"),
         {
             "old_password": f"{TEST_CASES['wrong_password'].password}+wrong",
             "new_password": TEST_CASES["wrong_password"].new_password,

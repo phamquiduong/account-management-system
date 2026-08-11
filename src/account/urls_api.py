@@ -6,10 +6,10 @@ from account.views.change_password import ChangePasswordView
 from account.views.user import UserViewSet
 
 router = DefaultRouter()
-router.register("users", UserViewSet, basename="account_api_users")
+router.register("users", UserViewSet, basename="account-api-users")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("users/me", AuthUserAPIView.as_view(), name="account_api_auth_user"),
-    path("users/me/change-password", ChangePasswordView.as_view(), name="account_api_change-password"),
+    path("users/me", AuthUserAPIView.as_view(), name="account-api-auth_user"),
+    path("users/me/change-password", ChangePasswordView.as_view(), name="account-api-auth_user-change_password"),
 ]

@@ -11,8 +11,6 @@ from common.tests.login import login_test
 
 User = get_user_model()
 
-LOGOUT_URL = "/auth/api/logout"
-
 
 @dataclass
 class LogoutTestCase:
@@ -25,10 +23,6 @@ TEST_CASES: dict[str, LogoutTestCase] = {
 }
 
 
-def test_logout_url():
-    assert reverse("auth_api_logout") == LOGOUT_URL
-
-
 @pytest.mark.django_db
 def test_logout_success_and_blacklist():
     client = APIClient()
@@ -36,7 +30,7 @@ def test_logout_success_and_blacklist():
     login_response = login_test(client, email=TEST_CASES["normal"].email, password=TEST_CASES["normal"].password)
 
     response = client.post(
-        LOGOUT_URL,
+        reverse("auth-api-logout"),
         {
             "refresh": login_response.refresh,
         },

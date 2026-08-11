@@ -19,7 +19,7 @@ TEST_CASES: dict[str, UserModelTestCase] = {
 
 @pytest.mark.django_db
 def test_create_normal_user():
-    user = User.objects.create_user(email=TEST_CASES["normal"].email, password=TEST_CASES["normal"].password)
+    user = User.objects.create_user(email=TEST_CASES["normal"].email, password=TEST_CASES["normal"].password)  # type:ignore
 
     # Check can create user
     assert user.id is not None
@@ -42,7 +42,7 @@ def test_create_normal_user():
 
 @pytest.mark.django_db
 def test_create_super_user():
-    user = User.objects.create_superuser(email=TEST_CASES["normal"].email, password=TEST_CASES["normal"].password)
+    user = User.objects.create_superuser(email=TEST_CASES["normal"].email, password=TEST_CASES["normal"].password)  # type:ignore
 
     # Check can create user
     assert user.id is not None

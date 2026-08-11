@@ -14,6 +14,7 @@ services:
     volumes:
       - ../src:/src
       - ../static:/static
+      - ../requirements.dev.txt:/requirements.dev.txt
     command: bash -c "python manage.py wait_for_db && \
                       python manage.py migrate && \
                       python manage.py collectstatic --noinput && \
