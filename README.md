@@ -82,6 +82,15 @@ python manage.py runserver 0.0.0.0:<your_port>
 
 ---
 
+### Run test and export coverage to HTML
+```bash
+pytest --cov=. --cov-report=html
+```
+
+<br>
+
+---
+
 ### Result
 - Admin site: Visit `/admin`
 - API document: Visit `/api/docs`
