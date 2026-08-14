@@ -17,6 +17,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "is_active": {"read_only": True},
             "is_superuser": {"read_only": True},
             "is_staff": {"read_only": True},
+            "is_verified_email": {"read_only": True},
             "date_joined": {"read_only": True},
             "last_login": {"read_only": True},
         }

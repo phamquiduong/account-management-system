@@ -10,6 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ["password", "groups", "user_permissions"]
         extra_kwargs = {
             "id": {"read_only": True},
+            "is_verified_email": {"read_only": True},
             "date_joined": {"read_only": True},
             "last_login": {"read_only": True},
         }

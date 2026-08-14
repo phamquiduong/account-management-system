@@ -29,13 +29,25 @@ class User(AbstractUser):
     last_name = None
     name = models.CharField(_("name"), blank=True, null=True, max_length=255)
 
+    is_verified_email = models.BooleanField(_("is verified email"), default=False)
+
     objects = UserManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+
+    def save(self, *args, **kwargs):
+        self._update_email_verified_status()
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f"User: {self.email}"
 
     class Meta:
         db_table = "users"
+
+    def _update_email_verified_status(self) -> None:
+        if self.pk:
+            old_email = type(self).objects.only("email").get(pk=self.pk).email
+            if old_email != self.email:
+                self.is_verified_email = False
