@@ -222,3 +222,7 @@ docker/*/data/
 
 # Static file
 /static/
+
+# IDE
+.idea/
+.vscode/
