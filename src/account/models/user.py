@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from common.models import TimestampModel
+
 
 class UserManager(BaseUserManager):
     def _create_user(self, email: str, password: str, **extra_fields) -> "User":
@@ -21,7 +23,7 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
-class User(AbstractUser):
+class User(TimestampModel, AbstractUser):
     username = None
     email = models.EmailField(_("email address"), unique=True)
 
@@ -31,7 +33,7 @@ class User(AbstractUser):
 
     is_verified_email = models.BooleanField(_("is verified email"), default=False)
 
-    objects = UserManager()
+    objects = UserManager()  # type:ignore
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
