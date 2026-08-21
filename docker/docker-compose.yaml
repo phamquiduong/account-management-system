@@ -11,6 +11,12 @@ services:
       - DB_DEFAULT_USER=${POSTGRES_USER}
       - DB_DEFAULT_PASS=${POSTGRES_PASS}
       - DB_DEFAULT_NAME=${POSTGRES_NAME}
+
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - FROM_EMAIL=${FROM_EMAIL}
     volumes:
       - ../src:/src
       - ../static:/static

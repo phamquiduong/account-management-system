@@ -1,7 +1,7 @@
-from common.models.timestamp import TimestampModel
+from common.models.timestamp import TimestampModelMixin
 from common.models.uuid import UUIDModelMixin
 
 __all__ = [
-    "TimestampModel",
+    "TimestampModelMixin",
     "UUIDModelMixin",
 ]

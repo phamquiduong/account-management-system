@@ -121,4 +121,4 @@ def test_register_conflict():
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     # Check error message
-    assert response.data["email"] == ["user with this email address already exists."]
+    assert response.data["email"] == ["user with this Email address already exists."]

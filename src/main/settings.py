@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "common",
     "account",
     "authentication",
+    "mail",
 ]
 
 MIDDLEWARE = [
@@ -163,3 +164,14 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
 }
+
+
+# Send mail
+SEND_EMAIL_BACKEND = "mail.services.backend.SMTPBackend"
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+FROM_EMAIL = os.getenv("FROM_EMAIL")
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
